@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Bell, Search, User } from 'lucide-react';
 
 export function Topbar() {
