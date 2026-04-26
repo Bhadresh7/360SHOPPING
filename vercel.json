@@ -1,0 +1,14 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "apps/web/build",
+  "rewrites": [
+    {
+      "source": "/admin/:path*",
+      "destination": "/apps/admin/build/:path*"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "https://your-deployed-api.com/api/:path*"
+    }
+  ]
+}
