@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
     orderBy: { createdAt: "desc" }
   });
   return res.json(
-    items.map((item) => ({
+    items.map((item: any) => ({
       ...item,
       product: normalizeProduct(item.product)
     }))

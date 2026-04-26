@@ -15,11 +15,11 @@ router.get("/overview", async (req, res) => {
     prisma.rewardTransaction.findMany({ where: { userId }, orderBy: { createdAt: "desc" }, take: 5 })
   ]);
 
-  const revenuePaise = orders.reduce((sum, order) => sum + order.totalPaise, 0) + studioBookings.reduce((sum, booking) => sum + booking.amountPaise, 0);
+  const revenuePaise = orders.reduce((sum: number, order: any) => sum + order.totalPaise, 0) + studioBookings.reduce((sum: number, booking: any) => sum + booking.amountPaise, 0);
 
   const nextBooking = studioBookings
-    .filter((booking) => booking.bookingDate > new Date())
-    .sort((a, b) => a.bookingDate.getTime() - b.bookingDate.getTime())[0];
+    .filter((booking: any) => booking.bookingDate > new Date())
+    .sort((a: any, b: any) => a.bookingDate.getTime() - b.bookingDate.getTime())[0];
 
   // Build activity feed from real data
   const activityFeed = [

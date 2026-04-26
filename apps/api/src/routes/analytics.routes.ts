@@ -39,7 +39,7 @@ router.get("/summary", async (_req, res) => {
   const productMap = new Map(productsById.map((product: any) => [product.id, product]));
 
   for (const row of divisionRevenue) {
-    const product = productMap.get(row.productId);
+    const product: any = productMap.get(row.productId);
     if (!product || !row._sum.quantity || !row._sum.unitPaise) {
       continue;
     }

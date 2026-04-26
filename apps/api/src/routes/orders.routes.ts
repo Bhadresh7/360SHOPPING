@@ -65,7 +65,7 @@ router.post("/", async (req, res) => {
 
   const productMap = new Map(products.map((product: any) => [product.id, product]));
   const totalPaise = parsed.data.items.reduce((sum: number, item: any) => {
-    const product = productMap.get(item.productId)!;
+    const product: any = productMap.get(item.productId)!;
     return sum + product.pricePaise * item.quantity;
   }, 0);
 
@@ -84,7 +84,7 @@ router.post("/", async (req, res) => {
           quantity: item.quantity,
           size: item.size,
           color: item.color,
-          unitPaise: productMap.get(item.productId)!.pricePaise
+          unitPaise: (productMap.get(item.productId) as any)!.pricePaise
         }))
       }
     },
