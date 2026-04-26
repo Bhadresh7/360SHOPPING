@@ -78,7 +78,7 @@ router.get("/", async (req, res) => {
   });
 
   return res.json(
-    products.map((product) => ({
+    products.map((product: any) => ({
       ...normalizeProduct(product),
       price: formatINRFromPaise(product.pricePaise),
       originalPrice: product.originalPaise ? formatINRFromPaise(product.originalPaise) : null,
@@ -96,7 +96,7 @@ router.get("/me", requireAuth, async (req, res) => {
   });
 
   return res.json(
-    products.map((product) => ({
+    products.map((product: any) => ({
       ...normalizeProduct(product),
       price: formatINRFromPaise(product.pricePaise),
       originalPrice: product.originalPaise ? formatINRFromPaise(product.originalPaise) : null

@@ -38,9 +38,9 @@ router.get("/", async (req, res) => {
   });
 
   return res.json(
-    orders.map((order) => ({
+    orders.map((order: any) => ({
       ...order,
-      items: order.items.map((item) => ({
+      items: order.items.map((item: any) => ({
         ...item,
         product: normalizeProduct(item.product)
       }))
@@ -54,7 +54,7 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ message: "Invalid input", errors: parsed.error.flatten() });
   }
 
-  const productIds = parsed.data.items.map((item) => item.productId);
+  const productIds = parsed.data.items.map((item: any) => item.productId);
   const products = await prisma.product.findMany({
     where: { id: { in: productIds } }
   });
@@ -63,8 +63,8 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ message: "One or more products are invalid" });
   }
 
-  const productMap = new Map(products.map((product) => [product.id, product]));
-  const totalPaise = parsed.data.items.reduce((sum, item) => {
+  const productMap = new Map(products.map((product: any) => [product.id, product]));
+  const totalPaise = parsed.data.items.reduce((sum: number, item: any) => {
     const product = productMap.get(item.productId)!;
     return sum + product.pricePaise * item.quantity;
   }, 0);
@@ -79,7 +79,7 @@ router.post("/", async (req, res) => {
       totalPaise,
       status: "PROCESSING",
       items: {
-        create: parsed.data.items.map((item) => ({
+        create: parsed.data.items.map((item: any) => ({
           productId: item.productId,
           quantity: item.quantity,
           size: item.size,
@@ -127,7 +127,7 @@ router.post("/", async (req, res) => {
 
   return res.status(201).json({
     ...order,
-    items: order.items.map((item) => ({
+    items: order.items.map((item: any) => ({
       ...item,
       product: normalizeProduct(item.product)
     }))

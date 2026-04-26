@@ -20,7 +20,7 @@ router.get("/bookings", async (req, res) => {
   });
 
   return res.json(
-    bookings.map((booking) => ({
+    bookings.map((booking: any) => ({
       ...booking,
       addOns: parseAddOns(booking.addOns)
     }))

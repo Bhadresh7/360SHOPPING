@@ -23,12 +23,12 @@ async function getCart(userId: string) {
     orderBy: { createdAt: "desc" }
   });
 
-  const subtotalPaise = items.reduce((sum, item) => sum + item.product.pricePaise * item.quantity, 0);
+  const subtotalPaise = items.reduce((sum: number, item: any) => sum + item.product.pricePaise * item.quantity, 0);
   const shippingPaise = subtotalPaise > 300000 ? 0 : 39900;
   const taxPaise = Math.round(subtotalPaise * 0.12);
 
   return {
-    items: items.map((item) => ({
+    items: items.map((item: any) => ({
       ...item,
       product: normalizeProduct(item.product)
     })),
@@ -37,7 +37,7 @@ async function getCart(userId: string) {
       shippingPaise,
       taxPaise,
       totalPaise: subtotalPaise + shippingPaise + taxPaise,
-      count: items.reduce((sum, item) => sum + item.quantity, 0)
+      count: items.reduce((sum: number, item: any) => sum + item.quantity, 0)
     }
   };
 }

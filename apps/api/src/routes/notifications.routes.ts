@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
   });
 
   return res.json({
-    unread: notifications.filter((item) => !item.isRead).length,
+    unread: notifications.filter((item: any) => !item.isRead).length,
     items: notifications
   });
 });

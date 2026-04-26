@@ -26,7 +26,7 @@ router.get("/summary", async (_req, res) => {
 
   const productsById = await prisma.product.findMany({
     where: {
-      id: { in: divisionRevenue.map((item) => item.productId) }
+      id: { in: divisionRevenue.map((item: any) => item.productId) }
     }
   });
 
@@ -36,7 +36,7 @@ router.get("/summary", async (_req, res) => {
     CORPORATE: 0
   };
 
-  const productMap = new Map(productsById.map((product) => [product.id, product]));
+  const productMap = new Map(productsById.map((product: any) => [product.id, product]));
 
   for (const row of divisionRevenue) {
     const product = productMap.get(row.productId);
