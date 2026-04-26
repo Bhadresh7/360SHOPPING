@@ -1,0 +1,210 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id                String               @id @default(cuid())
+  name              String
+  email             String               @unique
+  passwordHash      String
+  phone             String?
+  loyaltyPoints     Int                  @default(2840)
+  referralCode      String               @unique
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  cartItems         CartItem[]
+  wishlistItems     WishlistItem[]
+  orders            Order[]
+  studioBookings    StudioBooking[]
+  notifications     Notification[]
+  rewardTransactions RewardTransaction[]
+  referralsSent     Referral[]           @relation("Referrer")
+  productsSold      Product[]            @relation("SellerProducts")
+  albums            Album[]
+  smartFrames       SmartFrame[]
+}
+
+model Product {
+  id           String        @id @default(cuid())
+  sku          String        @unique
+  name         String
+  division     String
+  category     String
+  description  String
+  pricePaise   Int
+  originalPaise Int?
+  ecoScore     Int           @default(0)
+  rating       Float         @default(4.2)
+  reviewCount  Int           @default(0)
+  stock        Int           @default(20)
+  isNew        Boolean       @default(false)
+  isSale       Boolean       @default(false)
+  isLimited    Boolean       @default(false)
+  fabric       String
+  imageEmoji   String        @default("product")
+  colors       String
+  sizes        String
+  tags         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  cartItems    CartItem[]
+  wishlistItems WishlistItem[]
+  orderItems   OrderItem[]
+  sellerId     String?
+  seller       User?         @relation("SellerProducts", fields: [sellerId], references: [id])
+}
+
+model CartItem {
+  id         String   @id @default(cuid())
+  userId     String
+  productId  String
+  size       String
+  color      String
+  quantity   Int      @default(1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model WishlistItem {
+  id         String   @id @default(cuid())
+  userId     String
+  productId  String
+  listName   String   @default("My Wishlist")
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([userId])
+}
+
+model Order {
+  id            String       @id @default(cuid())
+  orderNo       String       @unique
+  userId        String
+  status        String       @default("PROCESSING")
+  paymentMethod String
+  totalPaise    Int
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items         OrderItem[]
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  productId  String
+  quantity   Int
+  unitPaise  Int
+  size       String
+  color      String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+}
+
+model StudioBooking {
+  id          String        @id @default(cuid())
+  userId      String
+  sessionType String
+  bookingDate DateTime
+  duration    String
+  amountPaise Int
+  status      String        @default("PENDING")
+  addOns      String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, bookingDate])
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  userId      String
+  type        String
+  title       String
+  description String
+  actionRoute String?
+  isRead      Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model RewardTransaction {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  points      Int
+  direction   String
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Referral {
+  id            String   @id @default(cuid())
+  referrerId    String
+  referredEmail String
+  status        String   @default("SENT")
+  rewardPaise   Int      @default(0)
+  createdAt     DateTime @default(now())
+  referrer      User     @relation("Referrer", fields: [referrerId], references: [id], onDelete: Cascade)
+
+  @@index([referrerId])
+}
+
+model Album {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  date      DateTime @default(now())
+  count     Int
+  size      String
+  ai        Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model SmartFrame {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  location  String
+  status    String
+  slide     String
+  lastSync  DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model TalentModel {
+  id           String   @id @default(cuid())
+  name         String
+  age          Int
+  height       String
+  tags         String
+  status       String
+  ratePaise    Int
+  score        Int
+  gender       String
+}

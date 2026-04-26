@@ -1,0 +1,24 @@
+{
+  "name": "360shopie-platform",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/web",
+    "apps/api",
+    "apps/admin"
+  ],
+  "scripts": {
+    "dev": "concurrently -n web,api,admin -c cyan,magenta,yellow \"npm run dev --workspace apps/web\" \"npm run dev --workspace apps/api\" \"npm run dev --workspace apps/admin\"",
+    "dev:web": "npm run dev --workspace apps/web",
+    "dev:api": "npm run dev --workspace apps/api",
+    "dev:admin": "npm run dev --workspace apps/admin",
+    "build": "npm run build --workspace apps/web && npm run build --workspace apps/api && npm run build --workspace apps/admin",
+    "lint": "npm run lint --workspace apps/web && npm run lint --workspace apps/api && npm run lint --workspace apps/admin",
+    "prisma:generate": "npm run prisma:generate --workspace apps/api",
+    "prisma:migrate": "npm run prisma:migrate --workspace apps/api",
+    "prisma:seed": "npm run prisma:seed --workspace apps/api"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

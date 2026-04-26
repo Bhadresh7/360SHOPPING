@@ -1,0 +1,8 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useNavigate } from "react-router-dom";
+import { useApp } from "../context/AppContext";
+export function Topbar({ onOpenSearch }) {
+    const navigate = useNavigate();
+    const { theme, setTheme, user, cart, notificationsUnread, setCartDrawerOpen, logout } = useApp();
+    return (_jsxs("header", { className: "topbar", children: [_jsxs("div", { children: [_jsx("h1", { children: "360Shopie" }), _jsx("small", { children: "AI Commerce Operating System" })] }), _jsxs("div", { className: "topbar-actions", children: [_jsx("button", { type: "button", className: "icon-btn", onClick: onOpenSearch, title: "Search (Ctrl/Cmd+K)", children: "\u2318K" }), _jsxs("button", { type: "button", className: "icon-btn", onClick: () => navigate("/view-notifications"), children: ["\uD83D\uDD14", notificationsUnread > 0 ? _jsx("span", { className: "dot-badge", children: notificationsUnread }) : null] }), _jsxs("button", { type: "button", className: "icon-btn", onClick: () => setCartDrawerOpen(true), children: ["\uD83D\uDED2", cart?.summary.count ? _jsx("span", { className: "dot-badge", children: cart.summary.count }) : null] }), _jsx("button", { type: "button", className: "icon-btn", onClick: () => setTheme(theme === "dark" ? "light" : "dark"), "aria-label": "Toggle theme", children: theme === "dark" ? "☀" : "🌙" }), _jsxs("button", { type: "button", className: "user-pill", onClick: () => navigate("/view-settings"), children: [_jsx("span", { children: "\uD83D\uDC64" }), _jsx("strong", { children: user?.name.split(" ")[0] ?? "Guest" })] }), _jsx("button", { type: "button", className: "icon-btn", onClick: logout, children: "\u238B" })] })] }));
+}
