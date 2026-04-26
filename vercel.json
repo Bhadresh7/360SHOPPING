@@ -1,14 +1,22 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "apps/web/build",
+  "outputDirectory": "dist",
   "rewrites": [
     {
-      "source": "/admin/:path*",
-      "destination": "/apps/admin/build/:path*"
+      "source": "/admin/(.*)",
+      "destination": "/admin/index.html"
     },
     {
-      "source": "/api/:path*",
-      "destination": "https://your-deployed-api.com/api/:path*"
+      "source": "/admin",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "https://your-api-url.com/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

@@ -12,7 +12,7 @@
     "dev:web": "npm run dev --workspace apps/web",
     "dev:api": "npm run dev --workspace apps/api",
     "dev:admin": "npm run dev --workspace apps/admin",
-    "build": "npm run build --workspace apps/web && npm run build --workspace apps/api && npm run build --workspace apps/admin",
+    "build": "npm run build --workspace apps/web && npm run build --workspace apps/admin && rm -rf dist && mkdir -p dist && cp -r apps/web/build/* dist/ && mkdir -p dist/admin && cp -r apps/admin/build/* dist/admin/",
     "lint": "npm run lint --workspace apps/web && npm run lint --workspace apps/api && npm run lint --workspace apps/admin",
     "prisma:generate": "npm run prisma:generate --workspace apps/api",
     "prisma:migrate": "npm run prisma:migrate --workspace apps/api",
