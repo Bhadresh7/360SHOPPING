@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [react()],
   base: '/admin/',
   envDir: '../../',
+  build: {
+    outDir: 'build'
+  },
   server: {
     port: 5174,
     host: '0.0.0.0'
